@@ -40,7 +40,7 @@ CREATE OR REPLACE TYPE tipo_Banco AS OBJECT (
 );	
 /
 CREATE TYPE BODY tipo_Banco As  
-ORDER MEMBER FUNCTION compareTo(b tipo_Banco) RETURN INTEGER  
+ORDER MEMBER FUNCTION compareTo(b tipo_Banco) RETURN INTEGER 
 	BEGIN  
 		IF Nome > b.Nome THEN  
 			RETURN -1  
@@ -71,7 +71,7 @@ CREATE TYPE tipo_Imovel AS OBJECT(
 CREATE TYPE tipo_Corretor AS OBJECT (
     Nome VARCHAR2(40),
     CPF_corretor CHAR(11),
-    Telefone array_telefone ,
+    Telefone array_telefone,
     CPF_gerenciador CHAR(11)
 );
 /
@@ -231,7 +231,6 @@ CREATE TABLE Anuncia OF tipo_Anuncia(
     CONSTRAINT fk_anuncia_imovel FOREIGN KEY (idImovel) REFERENCES Imovel(idImovel)
 );
 /
-
 -- Alter Type para usar o REF:
 
 --mudando o tipo_imovel para referenciar o endereço
@@ -248,3 +247,19 @@ ALTER TYPE tipo_Financia ADD ATTRIBUTE Banco REF tipo_Banco CASCADE;
 
 ALTER TYPE tipo_Financia DROP ATTRIBUTE idImovel CASCADE;
 ALTER TYPE tipo_Financia ADD ATTRIBUTE Imovel REF tipo_Imovel CASCADE;
+
+--funções
+CREATE OR REPLACE FUNCTION getTelefonesPorCPF(cpf IN CHAR) RETURN array_telefone IS
+    telefones array_telefone;
+BEGIN
+    SELECT c.Telefone
+    INTO telefones
+    FROM Corretor c
+    WHERE c.CPF_corretor = cpf;
+    
+    RETURN telefones;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RETURN NULL; -- Retorna NULL se não encontrar o corretor
+END;
+/

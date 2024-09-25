@@ -423,6 +423,28 @@ DECLARE
 BEGIN
     SELECT REF(e) INTO v_endereco_ref
     FROM Endereco e
+    WHERE e.CEP = '67890-123';
+
+    INSERT INTO Locatario
+    VALUES ('Camila Lima', TO_DATE('2004-12-25', 'YYYY-MM-DD'), 'Solteiro', 'Feminino', array_telefone('98765554321', NULL, NULL), '18765432109', v_endereco_ref, 'Casa', 'Engenheiro', 5700.00, 'Sim');
+END;
+/
+DECLARE
+    v_endereco_ref REF tipo_Endereco;
+BEGIN
+    SELECT REF(e) INTO v_endereco_ref
+    FROM Endereco e
+    WHERE e.CEP = '35001-000';
+
+    INSERT INTO Locatario
+    VALUES ('Rafael Santos', TO_DATE('1988-05-15', 'YYYY-MM-DD'), 'Solteiro', 'Masculino', array_telefone('31987654322', '31994757491', '31996739626'), '67890123456', v_endereco_ref, 'Casa', 'Engenheiro', 7500.00, 'Nao');
+END;
+/
+DECLARE
+    v_endereco_ref REF tipo_Endereco;
+BEGIN
+    SELECT REF(e) INTO v_endereco_ref
+    FROM Endereco e
     WHERE e.CEP = '40001-000';
 
     INSERT INTO Locatario
@@ -491,10 +513,17 @@ INSERT INTO Corretor VALUES (
 INSERT INTO Corretor VALUES (
     tipo_Corretor('Aline Santos', '56789012345', array_telefone('21987654325', NULL, '31994757491'), NULL)  -- Sem gerenciador
 );
+INSERT INTO Corretor VALUES (
+    tipo_Corretor('Fernanda Santos', '67890122456', array_telefone('24987555321', NULL, NULL), NULL)  -- Sem gerenciador
+);
+INSERT INTO Corretor VALUES (
+    tipo_Corretor('Ana Oliveira', '12345678909', array_telefone('19987654321', '81994757498', NULL), NULL)  -- Sem gerenciador
+);
 --corretor que também é gerente
 INSERT INTO Corretor VALUES (
     tipo_Corretor('João Batista', '67890123456', array_telefone('41987654326', '41988765436', NULL), NULL)  -- Sem gerenciador
 );
+
 
 
 --tabela Contata
